@@ -24,6 +24,8 @@ namespace kata_payslip_v2
 
         public void WritePayslipInformation(PayslipInformation payslipInformation)
         {
+            Console.WriteLine("Your payslip has been generated!");
+
             Console.WriteLine("Name: " + payslipInformation.Fullname);
             
             // Reverse dictionary lookups for month string associated with month integer

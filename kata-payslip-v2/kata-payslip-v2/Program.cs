@@ -32,28 +32,17 @@ namespace kata_payslip_v2
             new TaxRateBracket(180001, int.MaxValue, 0.45, 54232)
         };
         
+        public static string outputHeaderString = "name, pay period, gross income, income tax, net income, super\r\n";
+        
         public static int maxInputStringLength = 50;
         
         static void Main(string[] args)
         {
             var arguments = ArgumentParser.ParseArguments(args);
             
-            var payslipGeneratorFactory = new PayslipGeneratorFactory(MonthIntegerDictionary, maxInputStringLength, TaxRateBracketList);
+            var payslipGeneratorFactory = new PayslipGeneratorFactory(MonthIntegerDictionary, maxInputStringLength, TaxRateBracketList, outputHeaderString);
 
-            IPayslipGenerator payslipGenerator;
-
-            switch (arguments.PayslipInputType)
-            {
-                case PayslipInputType.CsvFileInput:
-                    payslipGenerator = payslipGeneratorFactory.CreateCsvFilePayslipGenerator(arguments.InputFilePath, arguments.OutputFilePath);
-                    break;
-                case PayslipInputType.ConsoleInput:
-                    payslipGenerator = payslipGeneratorFactory.CreateConsolePayslipGenerator();
-                    break;
-                default:
-                    payslipGenerator = payslipGeneratorFactory.CreateConsolePayslipGenerator();
-                    break;
-            }
+            IPayslipGenerator payslipGenerator = payslipGeneratorFactory.CreatePayslipGenerator(arguments);
 
             payslipGenerator.GeneratePayslip();
         }

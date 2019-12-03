@@ -11,52 +11,62 @@ namespace kata_payslip_v2
     {
         private readonly IUserInterface UserInterface;
         private readonly int MaxInputStringLength;
+        private bool UserHasAlreadyProvidedInput;
         
         public MonthlyConsoleInputHandler(IUserInterface userInterface, int maxStringLength)
         {
             UserInterface = userInterface;
             MaxInputStringLength = maxStringLength;
+            UserHasAlreadyProvidedInput = false;
 
         }
 
         public UserInputInformation GetNextUserInputInformation()
         {
+
+            if (UserHasAlreadyProvidedInput)
+            {
+                return null;
+            }
+            
             var userInputInformation = new UserInputInformation();
 
-            userInputInformation.Name = GetEmployeeName();
-            userInputInformation.Surname = GetEmployeeSurname();
-            userInputInformation.Salary = GetEmployeeSalary();
-            userInputInformation.SuperRate = GetEmployeeSuperRate();
+            userInputInformation.Name = PromptEmployeeName();
+            userInputInformation.Surname = PromptEmployeeSurname();
+            userInputInformation.Salary = PromptEmployeeSalary();
+            userInputInformation.SuperRate = PromptEmployeeSuperRate();
 
-            var paymentPeriod = GetPaymentPeriod();
+            var paymentPeriod = PromptPaymentPeriod();
             
             userInputInformation.PaymentStartDate = paymentPeriod.PaymentStartDate;
             userInputInformation.PaymentEndDate = paymentPeriod.PaymentEndDate;
 
+            UserHasAlreadyProvidedInput = true;
+
             return userInputInformation;
         }
 
-        public string GetEmployeeName()
+        public string PromptEmployeeName()
         {
             return UserInterface.PromptString("Please input your name: ", MaxInputStringLength);
         }
 
-        public string GetEmployeeSurname()
+        public string PromptEmployeeSurname()
         {
             return UserInterface.PromptString("Please input your surname: ", MaxInputStringLength);
         }
 
-        public uint GetEmployeeSalary()
+        public uint PromptEmployeeSalary()
         {
             return UserInterface.PromptUnsignedInteger("Please enter your annual salary: ");
         }
 
-        public uint GetEmployeeSuperRate()
+        public uint PromptEmployeeSuperRate()
         {
             return UserInterface.PromptUnsignedInteger("Please enter your super rate: ");
         }
 
-        public PaymentPeriod GetPaymentPeriod()
+        public PaymentPeriod PromptPaymentPeriod()
         {
             var paymentPeriod = new PaymentPeriod();
 

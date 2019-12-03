@@ -3,13 +3,13 @@ using kata_payslip_v2.Interfaces;
 
 namespace kata_payslip_v2
 {
-    public class CsvFilePayslipGenerator : IPayslipGenerator
+    public class PayslipGenerator : IPayslipGenerator
     {
         private IInputHandler FileInputHandler;
         private IOutputHandler FileOutputHandler;
         private IPayslipInformationCalculator _monthlyPayslipInformationCalculator;
 
-        public CsvFilePayslipGenerator(IInputHandler fileInputHandler, IOutputHandler fileOutputHandler, IPayslipInformationCalculator monthlyPayslipInformationCalculator)
+        public PayslipGenerator(IInputHandler fileInputHandler, IOutputHandler fileOutputHandler, IPayslipInformationCalculator monthlyPayslipInformationCalculator)
         {
             FileInputHandler = fileInputHandler;
             FileOutputHandler = fileOutputHandler;

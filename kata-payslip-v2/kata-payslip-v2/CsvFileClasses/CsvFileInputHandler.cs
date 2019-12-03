@@ -25,9 +25,9 @@ namespace kata_payslip_v2
             FileFieldParser = new TextFieldParser(filePath);
             FileFieldParser.TextFieldType = FieldType.Delimited;
             FileFieldParser.SetDelimiters(",");
-            FileFieldParser.ReadFields();
+            FileFieldParser.ReadFields(); // Skipping the first header line in the file
         }
-        
+
         public UserInputInformation? GetNextUserInputInformation()
         {
 

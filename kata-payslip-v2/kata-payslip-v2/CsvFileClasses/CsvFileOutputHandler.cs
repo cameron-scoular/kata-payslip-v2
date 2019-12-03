@@ -12,25 +12,24 @@ namespace kata_payslip_v2
 
         public readonly Dictionary<string, int> MontIntegerDictionary;
         public readonly string OutputFilePath;
+        public readonly string OutputHeaderString;
 
         
-        public CsvFileOutputHandler(Dictionary<string, int> monthIntegerDictionary, string outputFilePath)
+        public CsvFileOutputHandler(Dictionary<string, int> monthIntegerDictionary, string outputFilePath, string outputHeaderString)
         {
             MontIntegerDictionary = monthIntegerDictionary;
             OutputFilePath = outputFilePath;
-            CreateOutputFile();
+            OutputHeaderString = outputHeaderString;
         }
 
-        public void CreateOutputFile()
-        {
-            var headerString = "name, pay period, gross income, income tax, net income, super\r\n";
-            File.WriteAllText(OutputFilePath, headerString);
-        }
-        
         public void WritePayslipInformation(PayslipInformation payslipInformation)
         {
+            if (!File.Exists(OutputFilePath))
+            {
+                File.WriteAllText(OutputFilePath, OutputHeaderString);
+            }
             
-            using (var file = new System.IO.StreamWriter(OutputFilePath, true))
+            using (var file = new StreamWriter(OutputFilePath, true))
             {
                 var startMonthInteger = payslipInformation.PaymentStartDate.Month;
                 var endMonthInteger = payslipInformation.PaymentEndDate.Month;
