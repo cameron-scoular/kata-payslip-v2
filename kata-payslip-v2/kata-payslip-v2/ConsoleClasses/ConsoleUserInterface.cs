@@ -30,6 +30,9 @@ namespace kata_payslip_v2
             var startMonthString =  MonthIntegerDictionary.FirstOrDefault(x => x.Value == payslipInformation.PaymentStartDate.Month).Key;
             var endMonthString =  MonthIntegerDictionary.FirstOrDefault(x => x.Value == payslipInformation.PaymentEndDate.Month).Key;
 
+            startMonthString = FirstCharToUpperCase(startMonthString);
+            endMonthString = FirstCharToUpperCase(endMonthString);
+
             Console.WriteLine("Pay Period: {0} {1} - {2} {3}", payslipInformation.PaymentStartDate.Day, startMonthString, payslipInformation.PaymentEndDate.Day, endMonthString);
 
             Console.WriteLine("Gross Income: " + payslipInformation.GrossIncome);
@@ -93,8 +96,7 @@ namespace kata_payslip_v2
                     var dayString = userInputArray[0];
                     var monthString = userInputArray[1];
 
-                    var monthStringFirstCharCapitalized = FirstCharToUpperCase(monthString);
-                    var monthInteger = MonthIntegerDictionary[monthStringFirstCharCapitalized];
+                    var monthInteger = MonthIntegerDictionary[monthString];
                     var dayInteger = uint.Parse(dayString);
                     
                     return new DateTime(1, monthInteger, checked((int) dayInteger));

@@ -76,7 +76,7 @@ namespace kata_payslip_v2
             
             var paymentPeriod = new PaymentPeriod();
             
-            var dateInputs = inputString.Split(" ");
+            var dateInputs = inputString.ToLower().Split(" ");
             dateInputs.ToList().Remove("-");
             
             paymentPeriod.PaymentStartDate = ParseDateTime(dateInputs[0], dateInputs[1]);
@@ -88,16 +88,11 @@ namespace kata_payslip_v2
 
         private DateTime ParseDateTime(string dayString, string monthString)
         {
-            var monthInteger = MonthIntegerDictionary[FirstCharToUpperCase(monthString)];
+            var monthInteger = MonthIntegerDictionary[monthString];
             var dayInteger = uint.Parse(dayString);
             
             return new DateTime(1, monthInteger, checked((int) dayInteger));
         }
 
-        private string FirstCharToUpperCase(string input)
-        {
-            return input.First().ToString().ToUpper() + input.Substring(1);
-        }
-        
     }
 }

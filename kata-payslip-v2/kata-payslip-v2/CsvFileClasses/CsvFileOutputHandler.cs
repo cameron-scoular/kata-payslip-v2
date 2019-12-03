@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using kata_payslip_v2.DataObjects;
 using kata_payslip_v2.Interfaces;
+using Microsoft.VisualBasic;
 
 namespace kata_payslip_v2
 {
@@ -33,8 +34,12 @@ namespace kata_payslip_v2
             {
                 var startMonthInteger = payslipInformation.PaymentStartDate.Month;
                 var endMonthInteger = payslipInformation.PaymentEndDate.Month;
+                
                 var startMonthString =  MontIntegerDictionary.FirstOrDefault(x => x.Value == startMonthInteger).Key;
                 var endMonthString =  MontIntegerDictionary.FirstOrDefault(x => x.Value == endMonthInteger).Key;
+
+                startMonthString = FirstCharToUpperCase(startMonthString);
+                endMonthString = FirstCharToUpperCase(endMonthString);
 
                 var payPeriod = $"{payslipInformation.PaymentStartDate.Day} {startMonthString} - {payslipInformation.PaymentEndDate.Day} {endMonthString}";
                 
@@ -45,6 +50,11 @@ namespace kata_payslip_v2
                 file.WriteLine(newPayslipRow);
             }
             
+        }
+        
+        private string FirstCharToUpperCase(string input)
+        {
+            return input.First().ToString().ToUpper() + input.Substring(1);
         }
     }
 }
