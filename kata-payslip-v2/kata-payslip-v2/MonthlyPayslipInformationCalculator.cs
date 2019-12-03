@@ -20,7 +20,7 @@ namespace kata_payslip_v2
         public PayslipInformation CreatePayslipInformation(UserInputInformation userInputInformation)
         {
             
-            PayslipInformation payslipInformation = new PayslipInformation();
+            var payslipInformation = new PayslipInformation();
 
             payslipInformation.Fullname = $"{userInputInformation.Name} {userInputInformation.Surname}";
             
@@ -42,7 +42,8 @@ namespace kata_payslip_v2
         
         public uint CalculateSuperAmount(uint superRate, uint grossIncome)
         {
-            return checked((uint)Math.Round(grossIncome * (superRate / 100.0)));
+            var decimalSuperRate = superRate / 100.0;
+            return checked((uint)Math.Round(grossIncome * (decimalSuperRate)));
         }
 
         public uint CalculateNetIncome(uint grossIncome, uint incomeTax)
@@ -62,7 +63,9 @@ namespace kata_payslip_v2
                 if(bracket.IsInBracket(salary))
                 {
                     var residual = checked((uint) Math.Round((salary - bracket.LowerBound) * bracket.Rate));
-                    return checked((uint) Math.Round((bracket.FixedAmount + residual) / 12.0));
+                    var annualTax = bracket.FixedAmount + residual;
+                    var monthlyTax = checked((uint) Math.Round(annualTax / 12.0));
+                    return monthlyTax;
                 }
             }
 

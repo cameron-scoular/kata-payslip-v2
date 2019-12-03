@@ -64,7 +64,7 @@ namespace kata_payslip_v2
             string userInput = Console.ReadLine();
 
             // Ensuring input is nonempty, less than max length, and uses alphabet characters only before proceeding
-            while (InputIsValidAlphabeticalString(maxLength, userInput))
+            while (InputIsNotValidAlphabeticalString(maxLength, userInput))
             {
                 Console.WriteLine(
                     "The string you entered is not valid, please enter a valid string without any numbers or special characters:");
@@ -74,7 +74,7 @@ namespace kata_payslip_v2
             return userInput;
         }
 
-        private static bool InputIsValidAlphabeticalString(int maxLength, string userInput)
+        private static bool InputIsNotValidAlphabeticalString(int maxLength, string userInput)
         {
             return userInput == string.Empty || userInput.Length > maxLength || !Regex.IsMatch(userInput, @"^[a-zA-Z]+$");
         }
@@ -85,14 +85,16 @@ namespace kata_payslip_v2
             {
                 Console.WriteLine(message);
 
-                var userInputArray = Console.ReadLine().ToLower().Split(" ");
+                var inputString = Console.ReadLine();
+                var userInputArray = inputString.ToLower().Split(" ");
 
                 try
                 {
                     var dayString = userInputArray[0];
                     var monthString = userInputArray[1];
-                    
-                    var monthInteger = MonthIntegerDictionary[FirstCharToUpperCase(monthString)];
+
+                    var monthStringFirstCharCapitalized = FirstCharToUpperCase(monthString);
+                    var monthInteger = MonthIntegerDictionary[monthStringFirstCharCapitalized];
                     var dayInteger = uint.Parse(dayString);
                     
                     return new DateTime(1, monthInteger, checked((int) dayInteger));

@@ -17,12 +17,7 @@ namespace kata_payslip_v2
 
         public bool IsInBracket(uint amount)
         {
-            if (amount >= LowerBound && amount <= UpperBound)
-            {
-                return true;
-            }
-
-            return false;
+            return amount >= LowerBound && amount <= UpperBound;
         }
     }
 }

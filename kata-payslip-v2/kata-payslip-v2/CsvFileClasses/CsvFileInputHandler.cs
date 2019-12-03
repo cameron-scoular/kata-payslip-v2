@@ -11,7 +11,7 @@ namespace kata_payslip_v2
     public class CsvFileInputHandler : IInputHandler
     {
         
-        public string FilePath { get; private set; }
+        private string FilePath { get; }
         
         private TextFieldParser FileFieldParser;
 

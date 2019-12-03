@@ -31,10 +31,12 @@ namespace kata_payslip_v2
             
             using (var file = new System.IO.StreamWriter(OutputFilePath, true))
             {
-                var startMonth =  MontIntegerDictionary.FirstOrDefault(x => x.Value == payslipInformation.PaymentStartDate.Month).Key;
-                var endMonth =  MontIntegerDictionary.FirstOrDefault(x => x.Value == payslipInformation.PaymentEndDate.Month).Key;
+                var startMonthInteger = payslipInformation.PaymentStartDate.Month;
+                var endMonthInteger = payslipInformation.PaymentEndDate.Month;
+                var startMonthString =  MontIntegerDictionary.FirstOrDefault(x => x.Value == startMonthInteger).Key;
+                var endMonthString =  MontIntegerDictionary.FirstOrDefault(x => x.Value == endMonthInteger).Key;
 
-                var payPeriod = $"{payslipInformation.PaymentStartDate.Day} {startMonth} - {payslipInformation.PaymentEndDate.Day} {endMonth}";
+                var payPeriod = $"{payslipInformation.PaymentStartDate.Day} {startMonthString} - {payslipInformation.PaymentEndDate.Day} {endMonthString}";
                 
                 
                 var newPayslipRow = $"{payslipInformation.Fullname}, {payPeriod}, {payslipInformation.GrossIncome}, " +

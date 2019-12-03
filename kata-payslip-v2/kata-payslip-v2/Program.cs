@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using kata_payslip_v2.Interfaces;
 
 namespace kata_payslip_v2
 {
@@ -35,34 +36,28 @@ namespace kata_payslip_v2
         
         static void Main(string[] args)
         {
-            // todo arguments
+            var arguments = ArgumentParser.ParseArguments(args);
             
-            //GeneratePayslipFromCsvFileInput("../../../SampleCsvFiles/sample_input.csv", "../../../SampleCsvFiles/output.csv");
-            GeneratePayslipFromConsoleInput();
+            var payslipGeneratorFactory = new PayslipGeneratorFactory(MonthIntegerDictionary, maxInputStringLength, TaxRateBracketList);
+
+            IPayslipGenerator payslipGenerator;
+
+            switch (arguments.PayslipInputType)
+            {
+                case PayslipInputType.CsvFileInput:
+                    payslipGenerator = payslipGeneratorFactory.CreateCsvFilePayslipGenerator(arguments.InputFilePath, arguments.OutputFilePath);
+                    break;
+                case PayslipInputType.ConsoleInput:
+                    payslipGenerator = payslipGeneratorFactory.CreateConsolePayslipGenerator();
+                    break;
+                default:
+                    payslipGenerator = payslipGeneratorFactory.CreateConsolePayslipGenerator();
+                    break;
+            }
+
+            payslipGenerator.GeneratePayslip();
         }
 
-        public static void GeneratePayslipFromConsoleInput()
-        {
-            var userInterface = new ConsoleUserInterface(MonthIntegerDictionary);
-            var consoleInputHandler = new MonthlyConsoleInputHandler(userInterface, maxInputStringLength);
-            
-            var monthlyPayslipInformationCalculator = new MonthlyPayslipInformationCalculator(TaxRateBracketList);
-            
-            var consolePayslipGenerator = new ConsolePayslipGenerator(userInterface, consoleInputHandler, monthlyPayslipInformationCalculator);
-            
-            consolePayslipGenerator.GeneratePayslip();
-        }
-
-        public static void GeneratePayslipFromCsvFileInput(string inputFilePath, string outputFilePath)
-        {
-            var inputHandler = new CsvFileInputHandler(MonthIntegerDictionary, inputFilePath);
-            var outputHandler = new CsvFileOutputHandler(MonthIntegerDictionary, outputFilePath);
-            
-            var monthlyPayslipInformationCalculator = new MonthlyPayslipInformationCalculator(TaxRateBracketList);
-            
-            var csvFilePayslipGenerator = new CsvFilePayslipGenerator(inputHandler, outputHandler, monthlyPayslipInformationCalculator);
-            
-            csvFilePayslipGenerator.GeneratePayslip();
-        }
+        
     }
 }
