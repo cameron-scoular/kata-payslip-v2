@@ -5,15 +5,15 @@ namespace kata_payslip_v2
 {
     public class ConsolePayslipGenerator : IPayslipGenerator
     {
-        private IUserInterface UserInterface;
-        private IInputHandler InputHandler;
-        private IPayslipInformationFactory _monthlyPayslipInformationFactory;
+        private readonly IUserInterface UserInterface;
+        private readonly IInputHandler InputHandler;
+        private readonly IPayslipInformationCalculator PayslipInformationCalculator;
 
-        public ConsolePayslipGenerator(IUserInterface userInterface, IInputHandler inputHandler, IPayslipInformationFactory monthlyPayslipInformationFactory)
+        public ConsolePayslipGenerator(IUserInterface userInterface, IInputHandler inputHandler, IPayslipInformationCalculator payslipInformationCalculator)
         {
             UserInterface = userInterface;
             InputHandler = inputHandler;
-            _monthlyPayslipInformationFactory = monthlyPayslipInformationFactory;
+            PayslipInformationCalculator = payslipInformationCalculator;
         }
 
         public void GeneratePayslip()
@@ -21,7 +21,7 @@ namespace kata_payslip_v2
 
             var userInputInformation = InputHandler.GetNextUserInputInformation();
 
-            var payslipInformation = _monthlyPayslipInformationFactory.CreatePayslipInformationObject(userInputInformation);
+            var payslipInformation = PayslipInformationCalculator.CreatePayslipInformation(userInputInformation);
             
             UserInterface.WriteMessage("Your payslip has been generated!");
             UserInterface.WritePayslipInformation(payslipInformation);

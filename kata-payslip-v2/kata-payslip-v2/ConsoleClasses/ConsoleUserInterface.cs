@@ -26,11 +26,11 @@ namespace kata_payslip_v2
         {
             Console.WriteLine("Name: " + payslipInformation.Fullname);
             
-            
-            string startMonth =  MonthIntegerDictionary.FirstOrDefault(x => x.Value == payslipInformation.PaymentStartDate.Month).Key;
-            string endMonth =  MonthIntegerDictionary.FirstOrDefault(x => x.Value == payslipInformation.PaymentEndDate.Month).Key;
+            // Reverse dictionary lookups for month string associated with month integer
+            var startMonthString =  MonthIntegerDictionary.FirstOrDefault(x => x.Value == payslipInformation.PaymentStartDate.Month).Key;
+            var endMonthString =  MonthIntegerDictionary.FirstOrDefault(x => x.Value == payslipInformation.PaymentEndDate.Month).Key;
 
-            Console.WriteLine("Pay Period: {0} {1} - {2} {3}", payslipInformation.PaymentStartDate.Day, startMonth, payslipInformation.PaymentEndDate.Day, endMonth);
+            Console.WriteLine("Pay Period: {0} {1} - {2} {3}", payslipInformation.PaymentStartDate.Day, startMonthString, payslipInformation.PaymentEndDate.Day, endMonthString);
 
             Console.WriteLine("Gross Income: " + payslipInformation.GrossIncome);
             
@@ -45,7 +45,7 @@ namespace kata_payslip_v2
         {
             Console.WriteLine(message);
 
-            string userInput = Console.ReadLine();
+            var userInput = Console.ReadLine();
             uint parsedInput;
 
             // Ensuring input is an unsigned integer
@@ -64,8 +64,7 @@ namespace kata_payslip_v2
             string userInput = Console.ReadLine();
 
             // Ensuring input is nonempty, less than max length, and uses alphabet characters only before proceeding
-            while (userInput == string.Empty || userInput.Length > maxLength ||
-                   !Regex.IsMatch(userInput, @"^[a-zA-Z]+$"))
+            while (InputIsValidAlphabeticalString(maxLength, userInput))
             {
                 Console.WriteLine(
                     "The string you entered is not valid, please enter a valid string without any numbers or special characters:");
@@ -73,6 +72,11 @@ namespace kata_payslip_v2
             }
 
             return userInput;
+        }
+
+        private static bool InputIsValidAlphabeticalString(int maxLength, string userInput)
+        {
+            return userInput == string.Empty || userInput.Length > maxLength || !Regex.IsMatch(userInput, @"^[a-zA-Z]+$");
         }
 
         public DateTime PromptDateTime(string message)

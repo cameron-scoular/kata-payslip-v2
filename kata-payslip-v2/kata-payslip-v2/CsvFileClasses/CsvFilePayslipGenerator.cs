@@ -7,13 +7,13 @@ namespace kata_payslip_v2
     {
         private IInputHandler FileInputHandler;
         private IOutputHandler FileOutputHandler;
-        private IPayslipInformationFactory _monthlyPayslipInformationFactory;
+        private IPayslipInformationCalculator _monthlyPayslipInformationCalculator;
 
-        public CsvFilePayslipGenerator(IInputHandler fileInputHandler, IOutputHandler fileOutputHandler, IPayslipInformationFactory monthlyPayslipInformationFactory)
+        public CsvFilePayslipGenerator(IInputHandler fileInputHandler, IOutputHandler fileOutputHandler, IPayslipInformationCalculator monthlyPayslipInformationCalculator)
         {
             FileInputHandler = fileInputHandler;
             FileOutputHandler = fileOutputHandler;
-            _monthlyPayslipInformationFactory = monthlyPayslipInformationFactory;
+            _monthlyPayslipInformationCalculator = monthlyPayslipInformationCalculator;
         }
         
         public void GeneratePayslip()
@@ -28,7 +28,7 @@ namespace kata_payslip_v2
                     break;
                 }
 
-                var payslipInformation = _monthlyPayslipInformationFactory.CreatePayslipInformationObject(userInputInformation);
+                var payslipInformation = _monthlyPayslipInformationCalculator.CreatePayslipInformation(userInputInformation);
                 
                 FileOutputHandler.WritePayslipInformation(payslipInformation);
                 

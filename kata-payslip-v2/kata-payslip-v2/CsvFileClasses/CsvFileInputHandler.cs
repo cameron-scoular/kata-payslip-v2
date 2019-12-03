@@ -13,8 +13,6 @@ namespace kata_payslip_v2
         
         public string FilePath { get; private set; }
         
-        public int FileRowIndex { get; private set; }
-
         private TextFieldParser FileFieldParser;
 
         private Dictionary<string, int> MonthIntegerDictionary;

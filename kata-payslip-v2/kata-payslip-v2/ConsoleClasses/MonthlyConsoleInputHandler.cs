@@ -7,12 +7,12 @@ using kata_payslip_v2.Interfaces;
 
 namespace kata_payslip_v2
 {
-    public class ConsoleInputHandler : IInputHandler
+    public class MonthlyConsoleInputHandler : IInputHandler
     {
-        public IUserInterface UserInterface;
-        public int MaxInputStringLength;
+        private readonly IUserInterface UserInterface;
+        private readonly int MaxInputStringLength;
         
-        public ConsoleInputHandler(IUserInterface userInterface, int maxStringLength)
+        public MonthlyConsoleInputHandler(IUserInterface userInterface, int maxStringLength)
         {
             UserInterface = userInterface;
             MaxInputStringLength = maxStringLength;
